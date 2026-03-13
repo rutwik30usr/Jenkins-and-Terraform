@@ -1,0 +1,9 @@
+aws_region = "ap-south-1"
+backend_jenkins_bucket = "terraform-eks-cicd-7146"
+backend_jenkins_bucket_key = "jenkins/terraform.tfstat"
+vpc_name       = "jenkins-vpc"
+vpc_cidr       = "10.0.0.0/16"
+public_subnets = ["10.0.1.0/24"]
+instance_type  = "c7i-flex.large"
+jenkins_ec2_instance = "Jenkins-Build-Server"
+jenkins_security_group = "jenkins-sg"
