@@ -1,0 +1,67 @@
+pipeline{
+    agent any
+    environment{
+        AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
+        aws_default_region = 'ap-south-1'
+    }
+
+
+    stages{
+        stage('checkout code') {
+            steps{
+                script{
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/rutwik30usr/Jenkins-and-Terraform.git']])
+                }
+            }           
+        }
+         stage('Terraform Init'){
+            steps{
+                script{
+                    dir('aws-eks'){
+                        sh 'terraform init'
+                    }
+                }
+             
+            }
+        }
+        
+        stage('Terraform Plan'){
+            steps{
+                script{
+                    dir('aws-eks'){
+                        sh 'terraform plan -var-file=variables/dev.tfvars'                    
+                    }
+                    input message: 'Do you want to apply the changes?', ok: 'Apply'
+                }
+            }
+        }
+
+        stage('Creating/Destroying EKS Cluster'){
+            steps {
+                script {
+                    dir ('aws-eks') {
+                        sh 'terraform $action -var-file=variables/dev.tfvars -auto-approve'
+                    }
+                }
+            }
+        }
+
+        stage('Deploying Nginx Application')
+        {
+            steps{
+                script{
+                    dir('menifest')
+                    {
+                    sh 'aws eks update-kubeconfig --region ap-south-1 --name my-eks-cluster'
+                    sh 'kubectl create namespace eks-nginx-app'
+                    sh 'kubectl apply -f deployment.yaml -n eks-nginx-app'
+                    sh 'kubectl apply -f service.yaml -n eks-nginx-app'
+                    }
+                }
+            }
+        }
+
+        
+    }
+}
