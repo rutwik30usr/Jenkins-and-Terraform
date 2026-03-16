@@ -1,5 +1,15 @@
 pipeline{
     agent any
+
+    parameters { 
+        choice( 
+            name: 'action',
+            choices: ['apply', 'destroy'],
+            description: 'Choose Terraform action'
+        )
+    }
+
+    
     environment{
         AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
@@ -51,7 +61,7 @@ pipeline{
             steps {
                 script {
                     dir ('aws_eks') {
-                        sh 'terraform $action -var-file=variables/dev.tfvars -auto-approve'
+                        sh 'terraform ${params.action} -var-file=variables/dev.tfvars -auto-approve'
                     }
                 }
             }
