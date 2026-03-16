@@ -25,6 +25,16 @@ pipeline{
              
             }
         }
+
+        stage('Validating Terraform'){
+            steps {
+                script {
+                    dir('tf-aws_eks'){
+                        sh 'terraform validate'
+                    }
+                }
+            }
+        }
         
         stage('Terraform Plan'){
             steps{
