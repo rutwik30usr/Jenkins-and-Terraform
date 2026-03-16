@@ -47,7 +47,7 @@ pipeline{
             }
         }
 
-/*         stage('Creating/Destroying EKS Cluster'){
+         stage('Creating/Destroying EKS Cluster'){
             steps {
                 script {
                     dir ('aws_eks') {
@@ -72,7 +72,7 @@ pipeline{
             }
         }
 
-      */  
+        
     }
 }
 
