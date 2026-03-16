@@ -11,7 +11,7 @@ pipeline{
         stage('checkout code') {
             steps{
                 script{
-                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'hhttps://github.com/rutwik30usr/Jenkins-and-Terraform/tree/main/aws_eks']])
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/rutwik30usr/Jenkins-and-Terraform.git']])
                 }
             }           
         }
