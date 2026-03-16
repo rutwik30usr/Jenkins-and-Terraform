@@ -61,7 +61,7 @@ pipeline{
             steps {
                 script {
                     dir ('aws_eks') {
-                        sh 'terraform ${params.action} -var-file=variables/dev.tfvars -auto-approve'
+                        sh "terraform ${params.action} -var-file=variables/dev.tfvars -auto-approve"
                     }
                 }
             }
