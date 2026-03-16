@@ -18,7 +18,7 @@ pipeline{
          stage('Terraform Init'){
             steps{
                 script{
-                    dir('aws-eks'){
+                    dir('aws_eks'){
                         sh 'terraform init'
                     }
                 }
@@ -29,7 +29,7 @@ pipeline{
         stage('Terraform Plan'){
             steps{
                 script{
-                    dir('aws-eks'){
+                    dir('aws_eks'){
                         sh 'terraform plan -var-file=variables/dev.tfvars'                    
                     }
                     input message: 'Do you want to apply the changes?', ok: 'Apply'
@@ -40,7 +40,7 @@ pipeline{
         stage('Creating/Destroying EKS Cluster'){
             steps {
                 script {
-                    dir ('aws-eks') {
+                    dir ('aws_eks') {
                         sh 'terraform $action -var-file=variables/dev.tfvars -auto-approve'
                     }
                 }
