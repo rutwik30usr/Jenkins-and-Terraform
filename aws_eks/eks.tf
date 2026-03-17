@@ -16,11 +16,11 @@ module "eks" {
 
   eks_managed_node_groups = {
     node = {
-      desired_capacity = 2
-      max_capacity     = 3
+      desired_capacity = 1
+      max_capacity     = 2
       min_capacity     = 1
 
-      instance_types = ["t3.medium"]
+      instance_types = ["c7i-flex.large"]
 
     }
 
